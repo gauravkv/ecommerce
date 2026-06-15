@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShopEasy – Your Digital Store</title>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+  <!-- End Google Tag Manager -->
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- ===== HEADER ===== -->
+<header class="header" id="header">
+  <div class="header-inner container">
+    <a href="#" class="logo" onclick="showPage('home')">
+      <span class="logo-icon">🛍️</span>
+      <span>ShopEasy</span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="#" onclick="showPage('home'); filterCategory('all')">Home</a>
+      <a href="#" onclick="showPage('home'); filterCategory('electronics')">Electronics</a>
+      <a href="#" onclick="showPage('home'); filterCategory('fashion')">Fashion</a>
+      <a href="#" onclick="showPage('home'); filterCategory('home')">Home & Kitchen</a>
+      <a href="#" onclick="showPage('home'); filterCategory('books')">Books</a>
+      <a href="#" onclick="showPage('home'); filterCategory('beauty')">Beauty</a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="search-wrap">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search products…" oninput="handleSearch(this.value)"/>
+        <span class="search-icon">🔍</span>
+      </div>
+      <button class="cart-btn" onclick="showPage('cart')">
+        🛒 Cart
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== HOME PAGE ===== -->
+<div id="page-home">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content container">
+      <span class="hero-eyebrow">New Arrivals 2025</span>
+      <h1 class="hero-title">Shop Smart.<br/>Live Better.</h1>
+      <p class="hero-sub">Explore thousands of products across every category — electronics, fashion, books, and more. Delivered fast, priced right.</p>
+      <div class="hero-btns">
+        <button class="btn btn-primary" onclick="scrollToProducts()">Shop Now</button>
+        <button class="btn btn-outline" onclick="filterCategory('electronics')">View Electronics</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card card-1">📱 <span>Electronics</span></div>
+      <div class="hero-card card-2">👗 <span>Fashion</span></div>
+      <div class="hero-card card-3">📚 <span>Books</span></div>
+      <div class="hero-card card-4">🏠 <span>Home</span></div>
+    </div>
+  </section>
+
+  <!-- Category Pills -->
+  <section class="categories-section container" id="productsSection">
+    <h2 class="section-title">Browse Categories</h2>
+    <div class="category-pills" id="categoryPills">
+      <button class="pill active" onclick="filterCategory('all')" data-cat="all">All Products</button>
+      <button class="pill" onclick="filterCategory('electronics')" data-cat="electronics">📱 Electronics</button>
+      <button class="pill" onclick="filterCategory('fashion')" data-cat="fashion">👗 Fashion</button>
+      <button class="pill" onclick="filterCategory('home')" data-cat="home">🏠 Home & Kitchen</button>
+      <button class="pill" onclick="filterCategory('books')" data-cat="books">📚 Books</button>
+      <button class="pill" onclick="filterCategory('beauty')" data-cat="beauty">💄 Beauty</button>
+    </div>
+  </section>
+
+  <!-- Sort + Count -->
+  <div class="products-toolbar container">
+    <p class="product-count" id="productCount"></p>
+    <select class="sort-select" onchange="sortProducts(this.value)">
+      <option value="default">Sort: Featured</option>
+      <option value="price-asc">Price: Low to High</option>
+      <option value="price-desc">Price: High to Low</option>
+      <option value="rating">Top Rated</option>
+    </select>
+  </div>
+
+  <!-- Products Grid -->
+  <section class="products-grid container" id="productsGrid"></section>
+
+  <!-- Features Strip -->
+  <section class="features-strip">
+    <div class="container features-inner">
+      <div class="feature-item">
+        <span class="f-icon">🚚</span>
+        <div><strong>Free Delivery</strong><p>On orders above ₹499</p></div>
+      </div>
+      <div class="feature-item">
+        <span class="f-icon">🔄</span>
+        <div><strong>Easy Returns</strong><p>7-day hassle-free returns</p></div>
+      </div>
+      <div class="feature-item">
+        <span class="f-icon">🔒</span>
+        <div><strong>Secure Payment</strong><p>100% safe & encrypted</p></div>
+      </div>
+      <div class="feature-item">
+        <span class="f-icon">🎧</span>
+        <div><strong>24/7 Support</strong><p>Always here to help</p></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===== CART PAGE ===== -->
+<div id="page-cart" class="hidden">
+  <div class="container page-section">
+    <h2 class="page-title">🛒 Your Cart</h2>
+    <div class="cart-layout">
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-summary" id="cartSummary"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHECKOUT PAGE ===== -->
+<div id="page-checkout" class="hidden">
+  <div class="container page-section">
+    <h2 class="page-title">📦 Checkout</h2>
+    <div class="checkout-layout">
+
+      <!-- Delivery Info -->
+      <div class="checkout-form-wrap">
+        <div class="form-card">
+          <h3 class="form-section-title">Delivery Address</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" id="firstName" placeholder="Rahul"/>
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" id="lastName" placeholder="Sharma"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="email" placeholder="rahul@example.com"/>
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" id="phone" placeholder="+91 98765 43210"/>
+          </div>
+          <div class="form-group">
+            <label>Address</label>
+            <input type="text" id="address" placeholder="Flat 4B, Green Avenue"/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>City</label>
+              <input type="text" id="city" placeholder="Mumbai"/>
+            </div>
+            <div class="form-group">
+              <label>PIN Code</label>
+              <input type="text" id="pincode" placeholder="400001"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            <select id="state">
+              <option>Maharashtra</option>
+              <option>Delhi</option>
+              <option>Karnataka</option>
+              <option>Tamil Nadu</option>
+              <option>Gujarat</option>
+              <option>Rajasthan</option>
+              <option>Uttar Pradesh</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Payment -->
+        <div class="form-card">
+          <h3 class="form-section-title">Payment Details</h3>
+          <div class="payment-methods">
+            <label class="pay-method active" id="pm-card">
+              <input type="radio" name="paymethod" value="card" checked onchange="selectPayMethod('card')"/>
+              💳 Credit / Debit Card
+            </label>
+            <label class="pay-method" id="pm-upi">
+              <input type="radio" name="paymethod" value="upi" onchange="selectPayMethod('upi')"/>
+              📲 UPI
+            </label>
+            <label class="pay-method" id="pm-cod">
+              <input type="radio" name="paymethod" value="cod" onchange="selectPayMethod('cod')"/>
+              💵 Cash on Delivery
+            </label>
+          </div>
+
+          <div id="card-fields">
+            <div class="form-group">
+              <label>Card Number</label>
+              <input type="text" id="cardNum" placeholder="4242 4242 4242 4242" maxlength="19" oninput="formatCard(this)"/>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Expiry</label>
+                <input type="text" id="cardExp" placeholder="MM/YY" maxlength="5"/>
+              </div>
+              <div class="form-group">
+                <label>CVV</label>
+                <input type="text" id="cardCvv" placeholder="•••" maxlength="3" type="password"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Name on Card</label>
+              <input type="text" id="cardName" placeholder="RAHUL SHARMA"/>
+            </div>
+          </div>
+
+          <div id="upi-fields" class="hidden">
+            <div class="form-group">
+              <label>UPI ID</label>
+              <input type="text" id="upiId" placeholder="rahul@upi"/>
+            </div>
+          </div>
+
+          <div id="cod-fields" class="hidden">
+            <div class="cod-note">
+              <span>ℹ️</span>
+              <p>Pay with cash when your order arrives. No extra charges.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="checkout-summary" id="checkoutSummary"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== THANK YOU PAGE ===== -->
+<div id="page-thankyou" class="hidden">
+  <div class="container page-section">
+    <div class="thankyou-wrap">
+      <div class="ty-icon-wrap">
+        <div class="ty-icon">✅</div>
+      </div>
+      <h2 class="ty-title">Order Placed Successfully!</h2>
+      <p class="ty-sub">Thank you for shopping with <strong>ShopEasy</strong>. Your order has been confirmed and will be delivered within 3–5 business days.</p>
+      <div class="ty-order-box">
+        <div class="ty-order-row">
+          <span>Order ID</span>
+          <strong id="tyOrderId"></strong>
+        </div>
+        <div class="ty-order-row">
+          <span>Payment</span>
+          <strong id="tyPayment"></strong>
+        </div>
+        <div class="ty-order-row">
+          <span>Amount Paid</span>
+          <strong id="tyAmount"></strong>
+        </div>
+        <div class="ty-order-row">
+          <span>Estimated Delivery</span>
+          <strong id="tyDelivery"></strong>
+        </div>
+      </div>
+      <div class="ty-actions">
+        <button class="btn btn-primary" onclick="continueShopping()">Continue Shopping</button>
+        <button class="btn btn-outline" onclick="window.print()">🖨️ Print Receipt</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PRODUCT DETAIL PAGE ===== -->
+<div id="page-product" class="hidden">
+  <div class="container page-section">
+    <button class="back-btn" onclick="showPage('home')">← Back to Products</button>
+    <div class="product-detail-layout" id="productDetailContent"></div>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="logo-icon">🛍️</span>
+      <span class="footer-name">ShopEasy</span>
+      <p>Your one-stop digital marketplace for everything you love.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <a href="#">About Us</a>
+      <a href="#">Contact</a>
+      <a href="#">FAQ</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+    <div class="footer-links">
+      <h4>Categories</h4>
+      <a href="#" onclick="filterCategory('electronics')">Electronics</a>
+      <a href="#" onclick="filterCategory('fashion')">Fashion</a>
+      <a href="#" onclick="filterCategory('books')">Books</a>
+      <a href="#" onclick="filterCategory('beauty')">Beauty</a>
+    </div>
+    <div class="footer-links">
+      <h4>GTM Events Fired</h4>
+      <div class="gtm-log" id="gtmLog"><p class="log-empty">Events will appear here…</p></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 ShopEasy. Built for Digital Marketing Practice. GTM ID: GTM-XXXXXXX</p>
+  </div>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
